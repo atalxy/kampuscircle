@@ -52,9 +52,3 @@ cd kampuscircle
 ## Lisans
 
 Bu proje MIT lisansı altında lisanslanmıştır. Daha fazla bilgi için `LICENSE` dosyasına bakın.
-
-## İletişim
-
-Proje Sahibi - [@kullaniciadi](https://twitter.com/kullaniciadi)
-
-Proje Linki: [https://github.com/kullaniciadi/kampuscircle](https://github.com/kullaniciadi/kampuscircle) 
