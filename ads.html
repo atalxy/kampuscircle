@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İlanlar - KampüsCircle</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .ads-container {
+            padding: 6rem 5% 2rem;
+            min-height: 100vh;
+            background-color: var(--light-gray);
+        }
+
+        .ads-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .ads-header h2 {
+            color: var(--secondary-color);
+        }
+
+        .add-ad-btn {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-ad-btn:hover {
+            background-color: #357abd;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-input {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            min-width: 200px;
+        }
+
+        .ads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .ad-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .ad-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .ad-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .ad-content {
+            padding: 1.5rem;
+        }
+
+        .ad-price {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .ad-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .ad-description {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .ad-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .ad-category {
+            background-color: var(--light-gray);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .ad-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .ad-action-btn {
+            flex: 1;
+            padding: 0.5rem;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+            color: var(--white);
+        }
+
+        .no-ads {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .ads-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .filters {
+                justify-content: center;
+            }
+
+            .filter-input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>KampüsCircle</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Ana Sayfa</a>
+                <a href="events.html">Etkinlikler</a>
+                <a href="ads.html" class="active">İlanlar</a>
+                <a href="forum.html">Forum</a>
+                <a href="discounts.html">İndirimler</a>
+                <a href="community.html">Topluluk</a>
+                <a href="profile.html">Profilim</a>
+            </div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main class="ads-container">
+        <div class="ads-header">
+            <h2>İlanlar</h2>
+            <a href="add-ad.html" class="add-ad-btn">Yeni İlan Ekle</a>
+        </div>
+
+        <div class="filters">
+            <input type="text" class="filter-input" id="searchInput" placeholder="İlan ara...">
+            <select class="filter-input" id="categoryFilter">
+                <option value="">Tüm Kategoriler</option>
+                <option value="kitap">Kitap</option>
+                <option value="elektronik">Elektronik</option>
+                <option value="mobilya">Mobilya</option>
+                <option value="diger">Diğer</option>
+            </select>
+            <select class="filter-input" id="priceFilter">
+                <option value="">Fiyat Aralığı</option>
+                <option value="0-50">0 - 50 TL</option>
+                <option value="50-100">50 - 100 TL</option>
+                <option value="100-200">100 - 200 TL</option>
+                <option value="200+">200 TL ve üzeri</option>
+            </select>
+        </div>
+
+        <div class="ads-grid" id="adsGrid">
+            <!-- İlanlar JavaScript ile buraya eklenecek -->
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        // İlanları localStorage'dan al
+        function getAds() {
+            return JSON.parse(localStorage.getItem('ads')) || [];
+        }
+
+        // İlanları filtrele ve göster
+        function displayAds(ads) {
+            const adsGrid = document.getElementById('adsGrid');
+            adsGrid.innerHTML = '';
+
+            if (ads.length === 0) {
+                adsGrid.innerHTML = `
+                    <div class="no-ads">
+                        <h3>Henüz ilan bulunmuyor</h3>
+                        <p>İlk ilanı siz oluşturun!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const currentUser = JSON.parse(localStorage.getItem('user'));
+
+            ads.forEach(ad => {
+                const adCard = document.createElement('div');
+                adCard.className = 'ad-card';
+                adCard.innerHTML = `
+                    <img src="${ad.image || 'img/default-ad.jpg'}" alt="${ad.title}" class="ad-image">
+                    <div class="ad-content">
+                        <div class="ad-price">${ad.price} TL</div>
+                        <h3 class="ad-title">${ad.title}</h3>
+                        <p class="ad-description">${ad.description}</p>
+                        <div class="ad-meta">
+                            <div class="ad-category">${ad.category}</div>
+                            <div class="ad-date">${new Date(ad.createdAt).toLocaleDateString('tr-TR')}</div>
+                        </div>
+                        <div class="ad-actions">
+                            <a href="mailto:${ad.contactEmail}" class="ad-action-btn contact-btn">
+                                <i class="fas fa-envelope"></i> İletişime Geç
+                            </a>
+                            ${currentUser && currentUser.email === ad.createdBy ? `
+                                <button class="ad-action-btn delete-btn" onclick="deleteAd('${ad.id}')">
+                                    <i class="fas fa-trash"></i> Sil
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+                adsGrid.appendChild(adCard);
+            });
+        }
+
+        // İlan silme işlevi
+        function deleteAd(adId) {
+            if (confirm('Bu ilanı silmek istediğinizden emin misiniz?')) {
+                let ads = getAds();
+                ads = ads.filter(ad => ad.id !== adId);
+                localStorage.setItem('ads', JSON.stringify(ads));
+                displayAds(ads);
+            }
+        }
+
+        // Filtreleme işlevi
+        function filterAds() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+            const priceRange = document.getElementById('priceFilter').value;
+
+            let ads = getAds();
+
+            ads = ads.filter(ad => {
+                const matchesSearch = ad.title.toLowerCase().includes(searchTerm) ||
+                                    ad.description.toLowerCase().includes(searchTerm);
+                const matchesCategory = !category || ad.category === category;
+                
+                let matchesPrice = true;
+                if (priceRange) {
+                    const [min, max] = priceRange.split('-').map(Number);
+                    if (max) {
+                        matchesPrice = ad.price >= min && ad.price <= max;
+                    } else {
+                        matchesPrice = ad.price >= min;
+                    }
+                }
+
+                return matchesSearch && matchesCategory && matchesPrice;
+            });
+
+            displayAds(ads);
+        }
+
+        // Filtreleme olaylarını dinle
+        document.getElementById('searchInput').addEventListener('input', filterAds);
+        document.getElementById('categoryFilter').addEventListener('change', filterAds);
+        document.getElementById('priceFilter').addEventListener('change', filterAds);
+
+        // Sayfa yüklendiğinde ilanları göster
+        displayAds(getAds());
+    </script>
+</body>
+</html> 

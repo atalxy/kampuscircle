@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeni Konu Aç - KampüsCircle</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .new-topic-container {
+            padding: 6rem 5% 2rem;
+            min-height: 100vh;
+            background-color: var(--light-gray);
+        }
+
+        .new-topic-form {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .form-header h2 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #357abd;
+            transform: translateY(-2px);
+        }
+
+        .tags-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .tag {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tag i {
+            cursor: pointer;
+        }
+
+        .tag-input {
+            border: none;
+            outline: none;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        @media (max-width: 768px) {
+            .new-topic-container {
+                padding: 6rem 1rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>KampüsCircle</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Ana Sayfa</a>
+                <a href="events.html">Etkinlikler</a>
+                <a href="ads.html">İlanlar</a>
+                <a href="forum.html" class="active">Forum</a>
+                <a href="login.html" class="auth-btn">Giriş Yap</a>
+                <a href="register.html" class="auth-btn">Kayıt Ol</a>
+            </div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main class="new-topic-container">
+        <form class="new-topic-form" id="newTopicForm">
+            <div class="form-header">
+                <h2>Yeni Konu Aç</h2>
+                <p>Forumda yeni bir tartışma başlatın</p>
+            </div>
+
+            <div class="form-group">
+                <label for="title">Konu Başlığı</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Kategori</label>
+                <select id="category" name="category" required>
+                    <option value="">Kategori Seçin</option>
+                    <option value="akademik">Akademik</option>
+                    <option value="ogrenci-yasami">Öğrenci Yaşamı</option>
+                    <option value="kariyer">Kariyer</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="content">İçerik</label>
+                <textarea id="content" name="content" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="tags">Etiketler</label>
+                <div class="tags-input" id="tagsInput">
+                    <input type="text" class="tag-input" placeholder="Etiket eklemek için yazın ve Enter'a basın">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Konuyu Oluştur</button>
+        </form>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Etiket yönetimi
+        const tagsInput = document.getElementById('tagsInput');
+        const tagInput = tagsInput.querySelector('.tag-input');
+        const tags = new Set();
+
+        tagInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && this.value.trim()) {
+                e.preventDefault();
+                const tag = this.value.trim();
+                if (!tags.has(tag)) {
+                    tags.add(tag);
+                    const tagElement = document.createElement('span');
+                    tagElement.className = 'tag';
+                    tagElement.innerHTML = `
+                        ${tag}
+                        <i class="fas fa-times" onclick="this.parentElement.remove(); tags.delete('${tag}')"></i>
+                    `;
+                    this.parentElement.insertBefore(tagElement, this);
+                }
+                this.value = '';
+            }
+        });
+
+        // Form gönderimi
+        document.getElementById('newTopicForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Kullanıcı kontrolü
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user) {
+                alert('Konu açmak için giriş yapmalısınız!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const topicData = {
+                id: Date.now().toString(),
+                title: document.getElementById('title').value,
+                category: document.getElementById('category').value,
+                content: document.getElementById('content').value,
+                tags: Array.from(tags),
+                createdBy: user.email,
+                createdAt: new Date().toISOString(),
+                views: 0,
+                replies: 0
+            };
+
+            // Mevcut konuları al
+            const topics = JSON.parse(localStorage.getItem('forumTopics')) || [];
+            
+            // Yeni konuyu ekle
+            topics.push(topicData);
+            
+            // Konuları kaydet
+            localStorage.setItem('forumTopics', JSON.stringify(topics));
+            
+            alert('Konu başarıyla oluşturuldu!');
+            window.location.href = 'forum.html';
+        });
+    </script>
+</body>
+</html> 

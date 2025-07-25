@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeni Etkinlik Ekle - KampüsCircle</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .add-event-container {
+            padding: 6rem 5% 2rem;
+            min-height: 100vh;
+            background-color: var(--light-gray);
+        }
+
+        .add-event-form {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .form-header h2 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #357abd;
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 200px;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        .image-preview-text {
+            color: #666;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .add-event-container {
+                padding: 6rem 1rem 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>KampüsCircle</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Ana Sayfa</a>
+                <a href="events.html">Etkinlikler</a>
+                <a href="ads.html">İlanlar</a>
+                <a href="login.html" class="auth-btn">Giriş Yap</a>
+                <a href="register.html" class="auth-btn">Kayıt Ol</a>
+            </div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main class="add-event-container">
+        <form class="add-event-form" id="addEventForm">
+            <div class="form-header">
+                <h2>Yeni Etkinlik Ekle</h2>
+                <p>Etkinlik detaylarını doldurun</p>
+            </div>
+
+            <div class="form-group">
+                <label for="title">Etkinlik Başlığı</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Etkinlik Açıklaması</label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="date">Etkinlik Tarihi</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="time">Etkinlik Saati</label>
+                    <input type="time" id="time" name="time" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="location">Konum</label>
+                    <input type="text" id="location" name="location" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Kategori</label>
+                    <select id="category" name="category" required>
+                        <option value="">Kategori Seçin</option>
+                        <option value="akademik">Akademik</option>
+                        <option value="sosyal">Sosyal</option>
+                        <option value="kultur">Kültür & Sanat</option>
+                        <option value="spor">Spor</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Etkinlik Görseli</label>
+                <input type="file" id="image" name="image" accept="image/*">
+                <div class="image-preview" id="imagePreview">
+                    <div class="image-preview-text">
+                        <i class="fas fa-image"></i>
+                        <p>Görsel önizleme</p>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Etkinlik Oluştur</button>
+        </form>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Görsel önizleme
+        document.getElementById('image').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const preview = document.getElementById('imagePreview');
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Önizleme">`;
+                }
+                reader.readAsDataURL(file);
+            } else {
+                preview.innerHTML = `
+                    <div class="image-preview-text">
+                        <i class="fas fa-image"></i>
+                        <p>Görsel önizleme</p>
+                    </div>
+                `;
+            }
+        });
+
+        // Form gönderimi
+        document.getElementById('addEventForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Kullanıcı kontrolü
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user) {
+                alert('Etkinlik oluşturmak için giriş yapmalısınız!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const formData = {
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                location: document.getElementById('location').value,
+                category: document.getElementById('category').value,
+                createdBy: user.email,
+                createdAt: new Date().toISOString()
+            };
+
+            // Görsel işleme
+            const imageFile = document.getElementById('image').files[0];
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    formData.image = e.target.result;
+                    saveEvent(formData);
+                }
+                reader.readAsDataURL(imageFile);
+            } else {
+                saveEvent(formData);
+            }
+        });
+
+        function saveEvent(eventData) {
+            // Mevcut etkinlikleri al
+            const events = JSON.parse(localStorage.getItem('events')) || [];
+            
+            // Yeni etkinliği ekle
+            events.push(eventData);
+            
+            // Etkinlikleri kaydet
+            localStorage.setItem('events', JSON.stringify(events));
+            
+            alert('Etkinlik başarıyla oluşturuldu!');
+            window.location.href = 'events.html';
+        }
+    </script>
+</body>
+</html> 

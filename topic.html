@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konu Detayı - KampüsCircle</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            min-height: 100vh;
+            background: white !important;
+            margin: 0;
+            padding: 0;
+        }
+
+        .topic-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 140px); /* header ve footer yüksekliğini çıkar */
+        }
+
+        .topic-header {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        /* Ensure header and footer are also white */
+        header .navbar {
+            background: white !important;
+        }
+
+        footer {
+            background: white !important;
+        }
+
+        .topic-title {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .topic-meta {
+            display: flex;
+            gap: 1.5rem;
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .topic-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .topic-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .topic-tag {
+            background: var(--light-gray);
+            color: var(--primary-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .topic-content {
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .topic-stats {
+            display: flex;
+            gap: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .topic-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .replies-section {
+            margin-top: 2rem;
+        }
+
+        .replies-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .replies-title {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        .reply-form {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        .reply-form textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            resize: vertical;
+        }
+
+        .reply-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .reply-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .reply-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        .reply-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .reply-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .reply-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .reply-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .reply-name {
+            font-weight: 500;
+            color: var(--secondary-color);
+        }
+
+        .reply-date {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .reply-content {
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .reply-actions {
+            display: flex;
+            gap: 1rem;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .reply-action {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .reply-action:hover {
+            color: var(--primary-color);
+        }
+
+        .btn-reply {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-reply:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-reply:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .btn-back:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .topic-header {
+                padding: 1.5rem;
+            }
+
+            .topic-title {
+                font-size: 1.5rem;
+            }
+
+            .topic-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .topic-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .reply-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .reply-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+
+        .notification.error {
+            background: #ff4444;
+        }
+
+        .notification.success {
+            background: #00C851;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .no-replies {
+            text-align: center;
+            padding: 2rem;
+            color: #888;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>KampüsCircle</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Ana Sayfa</a>
+                <a href="events.html">Etkinlikler</a>
+                <a href="ads.html">İlanlar</a>
+                <a href="forum.html" class="active">Forum</a>
+                <a href="profile.html">Profilim</a>
+            </div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <div class="topic-container">
+        <a href="forum.html" class="btn-back">
+            <i class="fas fa-arrow-left"></i>
+            Foruma Dön
+        </a>
+
+        <div class="topic-header">
+            <h1 class="topic-title" id="topicTitle">Yükleniyor...</h1>
+            <div class="topic-meta">
+                <span><i class="fas fa-user"></i> <span id="topicAuthor">Yükleniyor...</span></span>
+                <span><i class="fas fa-calendar"></i> <span id="topicDate">Yükleniyor...</span></span>
+                <span><i class="fas fa-eye"></i> <span id="topicViews">0</span> görüntülenme</span>
+            </div>
+            <div class="topic-tags" id="topicTags">
+                <!-- Etiketler buraya gelecek -->
+            </div>
+            <div class="topic-content" id="topicContent">
+                Yükleniyor...
+            </div>
+            <div class="topic-stats">
+                <div class="topic-stat">
+                    <i class="fas fa-comments"></i>
+                    <span id="replyCount">0</span> yorum
+                </div>
+                <div class="topic-stat">
+                    <i class="fas fa-thumbs-up"></i>
+                    <span id="likeCount">0</span> beğeni
+                </div>
+            </div>
+        </div>
+
+        <div class="replies-section">
+            <div class="replies-header">
+                <h2 class="replies-title">Yorumlar</h2>
+            </div>
+
+            <form class="reply-form" id="replyForm">
+                <textarea id="replyContent" placeholder="Yorumunuzu yazın..." required></textarea>
+                <button type="submit" class="btn-reply" id="submitReply">Yorum Gönder</button>
+            </form>
+
+            <div class="reply-list" id="replyList">
+                <!-- Yorumlar buraya gelecek -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>KampüsCircle</h3>
+                <p>Kampüs yaşamınızın merkezi</p>
+            </div>
+            <div class="footer-section">
+                <h3>Hızlı Bağlantılar</h3>
+                <ul>
+                    <li><a href="events.html">Etkinlikler</a></li>
+                    <li><a href="ads.html">İlanlar</a></li>
+                    <li><a href="forum.html">Forum</a></li>
+                    <li><a href="profile.html">Profilim</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>İletişim</h3>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> info@kampuscircle.com</li>
+                    <li><i class="fas fa-phone"></i> +90 555 123 4567</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 KampüsCircle. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/topic.js"></script>
+</body>
+</html> 

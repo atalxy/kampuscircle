@@ -1,0 +1,28 @@
+# Sistem dosyaları
+.DS_Store
+Thumbs.db
+
+# IDE ve editör dosyaları
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Bağımlılık dizinleri
+node_modules/
+vendor/
+
+# Derleme çıktıları
+dist/
+build/
+*.log
+
+# Ortam değişkenleri
+.env
+.env.local
+.env.*.local
+
+# Geçici dosyalar
+tmp/
+temp/ 

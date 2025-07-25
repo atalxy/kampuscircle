@@ -1,0 +1,233 @@
+/* Tablet ve Küçük Ekranlar */
+@media screen and (max-width: 1024px) {
+    .container {
+        padding: 0 2rem;
+    }
+
+    .hero-content {
+        padding: 0 2rem;
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+
+    .events-grid,
+    .ads-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .forum-categories {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobil Cihazlar */
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    .navbar {
+        padding: 1rem;
+    }
+
+    .nav-links {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background-color: var(--white);
+        flex-direction: column;
+        padding: 2rem;
+        z-index: 1000;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+
+    .hero {
+        height: auto;
+        min-height: 100vh;
+        padding: 8rem 1rem 4rem;
+    }
+
+    .hero-content {
+        padding: 0;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1.1rem;
+    }
+
+    .features-grid,
+    .events-grid,
+    .ads-grid,
+    .forum-categories {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .feature-card,
+    .event-card,
+    .ad-card,
+    .category-card {
+        padding: 1.5rem;
+    }
+
+    .cta-section {
+        padding: 4rem 1rem;
+    }
+
+    .cta-content h2 {
+        font-size: 2rem;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+}
+
+/* Küçük Mobil Cihazlar */
+@media screen and (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .btn + .btn {
+        margin-left: 0;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        font-size: 16px; /* iOS'ta zoom sorununu önler */
+    }
+
+    .card {
+        padding: 1rem;
+    }
+
+    .footer {
+        text-align: center;
+    }
+
+    .footer-section {
+        margin-bottom: 2rem;
+    }
+}
+
+/* Yüksek DPI Ekranlar */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .hero {
+        background-image: url('../img/hero-bg@2x.jpg');
+    }
+}
+
+/* Karanlık Mod Desteği */
+/*
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: #f5f5f5;
+        --light-gray: #1a1a1a;
+        --white: #2d2d2d;
+        --shadow: 0 3px 10px rgba(0,0,0,0.3);
+    }
+
+    .navbar {
+        background-color: rgba(45, 45, 45, 0.95);
+    }
+
+    .nav-links a {
+        color: #f5f5f5;
+    }
+
+    .card {
+        background-color: #2d2d2d;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        background-color: #1a1a1a;
+        border-color: #404040;
+        color: #f5f5f5;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+        border-color: var(--primary-color);
+    }
+
+    .btn-secondary {
+        background-color: transparent;
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+    }
+
+    .btn-secondary:hover {
+        background-color: var(--primary-color);
+        color: var(--white);
+    }
+}
+*/
+
+/* Yazdırma Stilleri */
+@media print {
+    .navbar,
+    .footer,
+    .btn,
+    .mobile-menu {
+        display: none !important;
+    }
+
+    body {
+        background-color: white;
+        color: black;
+    }
+
+    .container {
+        width: 100%;
+        max-width: none;
+        padding: 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        border: 1px solid #ddd;
+        box-shadow: none;
+    }
+} 

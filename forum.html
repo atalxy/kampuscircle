@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum - KampüsCircle</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .forum-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .forum-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .forum-title {
+            color: var(--secondary-color);
+            font-size: 2rem;
+            margin: 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        .forum-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.8rem 1rem 0.8rem 2.5rem;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .filter-box {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 0.8rem 2rem 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+            background: var(--white);
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .category-icon i {
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+
+        .category-title {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .category-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-stats {
+            display: flex;
+            gap: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .category-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .topics-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .topic-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .topic-card:hover {
+            transform: translateX(5px);
+        }
+
+        .topic-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .topic-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .topic-title {
+            font-size: 1.2rem;
+            color: var(--secondary-color);
+            margin: 0;
+        }
+
+        .topic-meta {
+            display: flex;
+            gap: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .topic-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .topic-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .topic-tag {
+            background: var(--light-gray);
+            color: var(--primary-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .topic-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            text-align: right;
+            color: #666;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .topic-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .btn-edit, .btn-delete {
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit {
+            color: var(--primary-color);
+        }
+
+        .btn-delete {
+            color: #dc3545;
+        }
+
+        .btn-edit:hover {
+            background: rgba(0, 123, 255, 0.1);
+        }
+
+        .btn-delete:hover {
+            background: rgba(220, 53, 69, 0.1);
+        }
+
+        .no-topics {
+            text-align: center;
+            padding: 3rem;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .no-topics i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+
+        .no-topics p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .btn-new-topic {
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+
+        .btn-new-topic:hover {
+            background: #357abd;
+        }
+
+        @media (max-width: 768px) {
+            .forum-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: none;
+            }
+
+            .forum-actions {
+                flex-direction: column;
+            }
+
+            .filter-box {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .topic-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .topic-avatar {
+                margin: 0 auto;
+            }
+
+            .topic-meta {
+                justify-content: center;
+            }
+
+            .topic-tags {
+                justify-content: center;
+            }
+
+            .topic-stats {
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .topic-actions {
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>KampüsCircle</h1>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Ana Sayfa</a>
+                <a href="events.html">Etkinlikler</a>
+                <a href="ads.html">İlanlar</a>
+                <a href="forum.html" class="active">Forum</a>
+                <a href="discounts.html">İndirimler</a>
+                <a href="community.html">Topluluk</a>
+                <a href="profile.html">Profilim</a>
+            </div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main class="forum-container">
+        <div class="forum-header">
+            <h1 class="forum-title">Forum</h1>
+            <div class="forum-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="topicSearch" placeholder="Konu ara...">
+                </div>
+                <div class="filter-box">
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="">Tüm Kategoriler</option>
+                        <option value="academic">Akademik</option>
+                        <option value="student-life">Öğrenci Hayatı</option>
+                        <option value="career">Kariyer</option>
+                        <option value="technical">Teknik</option>
+                    </select>
+                    <select id="sortFilter" class="filter-select">
+                        <option value="newest">En Yeni</option>
+                        <option value="popular">En Popüler</option>
+                        <option value="active">En Aktif</option>
+                    </select>
+                </div>
+                <a href="new-topic.html" class="btn-new-topic">
+                    <i class="fas fa-plus"></i>
+                    Yeni Konu
+                </a>
+            </div>
+        </div>
+
+        <div class="categories-grid" id="categoriesGrid">
+            <!-- JavaScript ile doldurulacak -->
+        </div>
+
+        <div class="topics-list" id="topicsList">
+            <!-- JavaScript ile doldurulacak -->
+        </div>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script src="js/forum.js"></script>
+</body>
+</html> 
